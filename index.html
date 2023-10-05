@@ -17,3 +17,958 @@
         </script>
     </head>
 </body>
+
+
+<!doctype html>
+<html lang="en">
+	<head>
+			<style>
+			#status {
+				text-align: center;
+				margin-bottom: .75em;
+			}
+			
+			#paging {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				margin-bottom: 1em;
+			}
+			
+			#page-number {
+				margin: 0 0.5em;
+			}
+			
+			#autoreload-indicator {
+			    margin-left: .5em;
+			}
+			
+			#autoreload-indicator:after {
+			    display: inline-block;
+			    position: relative;
+			    content: '\21bb';
+			    line-height: 0;
+			}
+			
+			#results a {
+				text-decoration: none;
+			}
+			
+			#results a:hover,
+			#results a:focus {
+				text-decoration: underline;
+			}
+			
+			h1 {
+				text-align: center;
+			}
+			
+			#search {
+				text-align: center;
+				margin-bottom: .25em;
+			}
+			
+			#search > * {
+				display: inline-block;
+				margin-bottom: .75em !important;
+			}
+			
+			#search input {
+				margin-bottom: 0;
+			}
+		
+			#list {
+				margin: 0 10px 10px;
+				display: flex;
+				flex-wrap: wrap;
+				width: 100%;
+			}
+			
+			#list > .no-results {
+				text-align: center;
+				margin-top: 3em;
+				width: 100%;
+			}
+
+			.item {
+				padding: .3em;
+				margin: .5em;
+				border-radius: 5px;
+				text-align: center;
+				border: 1px solid #fff;
+				flex-basis: calc(25% - 1em);
+				background: rgba(255, 255, 255, .025);
+			}
+			
+			.item > * {
+				margin: 5px;
+			}
+			
+			.item h2 {
+				font: inherit;
+			}
+			
+			.item a,
+			#info a {
+				text-decoration: none;
+			}
+			
+			.prices {
+				margin-top: -5px;
+			}
+			
+			.prices > * {
+				margin: 5px;
+				display: inline-block;
+			}
+			
+			.item:hover {
+				background: rgba(255, 255, 255, .05);
+				cursor: pointer;
+			}
+
+			.label {
+				color: #AAA;
+			}
+
+			#main {
+				height: 100%;
+				display: flex;
+				flex-direction: column;
+			}
+			
+			#results {
+				display: flex;
+				flex: 1;
+				align-items: flex-start;
+			}
+			
+			#info {
+				position: sticky;
+				top: 50px;
+				display: flex;
+				white-space: nowrap;
+			}
+			
+			#info > .loading {
+				margin: 0 3em 0 2em;
+			}
+			
+			#info > .no-result {
+				margin: .2em 2em 0 1em;
+				white-space: nowrap;
+				display: flex;
+				align-items: center;
+			}
+			
+			#info > * {
+				margin-right: 1em;
+			}
+			
+			#info-left {
+				text-align: center;
+			}
+			
+			#info-left > * {
+				margin-bottom: .6em;
+				display: block;
+			}
+			
+			#info-right > * {
+				margin-bottom: 1rem;
+			}
+			
+			#info-title {
+				margin-top: 0;
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+			}
+			
+			#info-title > * {
+				vertical-align: middle;
+			}
+			
+			#info-title a {
+				display: inline-block;
+			}
+			
+			#info-endtime {
+				font-size: 1.17em;
+				font-weight: bold;
+			}
+
+			#bids > * {
+				margin: .6em 0;
+			}
+			
+			#info-close {
+				width: 1.5rem;
+				margin-left: .5rem;
+				cursor: pointer;
+			}
+			
+			.api-error {
+				text-align: center;
+				margin-top: .5em;
+			}
+			
+			footer {
+				text-align: center;
+				padding-bottom: .5em;
+			}
+
+			@media (max-width: 1000px) {
+				.item {
+					flex-basis: calc(50% - 1em);
+				}
+			}
+
+			@media (max-width: 800px) {
+				#results {
+					flex-direction: column-reverse;
+					align-items: center;
+				}
+				
+				#info > :last-child {
+					margin-right: 0;
+				}
+				
+				#info {
+					position: static;
+					overflow-x: auto;
+					max-width: 100%;
+				}
+			}
+
+			@media (max-width: 500px) {
+				.item {
+					flex-basis: calc(100% - 1em);
+				}
+			}
+		</style>
+			<title>Hypixel SkyBlock Auction House - Brandon Fowler</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="author" content="Brandon Fowler">
+	<meta name="description" content="Up to date auction information from the Hypixel Skyblock Auction House. Data is cached from the Hypixel API.">
+	<link rel="shortcut icon" type="image/png" href="/favicon.png">
+	<meta property="og:image" content="/favicon.png">
+	<meta property="og:title" content="Hypixel SkyBlock Auction House">
+	<meta property="og:description" content="Up to date auction information from the Hypixel Skyblock Auction House. Data is cached from the Hypixel API.">
+	<meta property="og:type" content="website">
+	<link rel="preload" href="/font/barlow-regular.woff2" as="font" type="font/woff2" crossorigin>
+	<link rel="preload" href="/font/barlow-italic.woff2" as="font" type="font/woff2" crossorigin>
+	<link rel="preload" href="/font/barlow-bold.woff2" as="font" type="font/woff" crossorigin>
+	<link rel="stylesheet" href="/global.css?v=1692245051">
+	<meta name="theme-color" content="#5e9aff" />
+			<link rel="manifest" href="skyblockah.webmanifest">
+		<script>
+		if ('serviceWorker' in navigator) {
+			window.addEventListener('load', function() {
+				navigator.serviceWorker.register('/serviceworker.js');
+			});
+		}
+	</script>
+	<!--[if lt IE 8]>
+		<style>
+			#nav li {
+				display: inline;
+			}
+		</style>   
+	<![endif]-->
+	<noscript>
+		<style>
+			#toolbar {
+				position: relative;
+				margin: 0 -8px;
+			}
+		</style>
+	</noscript>
+	<html>
+	<body>
+			<a id="skiptocontent" href="#top">Skip to content</a>
+	<nav id="toolbar">
+		<label for="showmini" id="shownav">
+			<svg style="width: 0.8em;" viewBox="0 0 16 16" stroke="currentColor" stroke-width="3" stroke-linecap="round">
+				<title>Navigation menu</title>
+				<line x1="1.5" y1="1.5" x2="14.5" y2="1.5" />
+				<line x1="1.5" y1="8" x2="14.5" y2="8" />
+				<line x1="1.5" y1="14.5" x2="14.5" y2="14.5" />
+			</svg>
+		</label>
+		<input type="checkbox" style="display:none" id="showmini">
+		<a href="/" id="logo">BRANDON FOWLER</a>
+		<ul id="nav"><li class="current" ><div class="navpage pageonly"><a href="/skyblockah/">SkyBlock AH</a></div></li><li><div class="navpage pageonly"><a href="/flightmap/">Flight Map</a></div></li><li><div class="navpage submenu"><a href="#">More Web Apps</a><svg class="submenusvg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path fill="currentColor" d="M17.5 4.75l-7.5 7.5-7.5-7.5L1 6.25l9 9 9-9z"/></svg></div><div class="navsub"><ul><li><div class="navpage pageonly"><a href="/numeric-genshin-damage-calc/">Numeric Genshin Dmg Calc</a></div></li><li><div class="navpage pageonly"><a href="/critical-analysis/">Critical Analysis</a></div></li><li><div class="navpage pageonly"><a href="/youtubethumbnail/">YouTube Thumbnail Viewer</a></div></li><li><div class="navpage pageonly"><a href="/imgtotext/">Image to Text</a></div></li><li><div class="navpage pageonly"><a href="/invoice-generator/">Invoice Generator</a></div></li><li><div class="navpage pageonly"><a href="/htmltester/">HTML Tester</a></div></li><li><div class="navpage pageonly"><a href="/svg-path-explainer/">SVG Path Explainer</a></div></li><li><div class="navpage pageonly"><a href="/nbtreader/">Minecraft NBT Reader</a></div></li><li><div class="navpage pageonly"><a href="/webnote/">Webnote</a></div></li><li><div class="navpage pageonly"><a href="/mytimetable/">My TDSB Timetable</a></div></li><li><div class="navpage pageonly"><a href="/sortbycolor/">Sort Images by Color</a></div></li><li><div class="navpage pageonly"><a href="/todatauri/">Data URI Generator</a></div></li><li><div class="navpage pageonly"><a href="/randomlocation/">Random Location</a></div></li><li><div class="navpage pageonly"><a href="/gameoflife/">Game of Life</a></div></li><li><div class="navpage pageonly"><a href="/snake/">Snake</a></div></li><li><div class="navpage pageonly"><a href="/diction-addiction/">Diction Addiction</a></div></li><li><div class="navpage pageonly"><a href="/cps/">Clicks Per Second</a></div></li><li><div class="navpage pageonly"><a href="/weather/">Weather</a></div></li><li><div class="navpage pageonly"><a href="/map/">ArcGIS Map</a></div></li><li><div class="navpage pageonly"><a href="/wisp/">WISP</a></div></li><li><div class="navpage pageonly"><a href="https://books.brandonfowler.me/">Brandon's Books</a></div></li><li><div class="navpage pageonly"><a href="https://www.brandonfowler.me/bulk-attachment-sender/">Bulk Attachment Sender</a></div></li><li><div class="navpage pageonly"><a href="https://wikinearby.toolforge.org/">WikiNearby</a></div></li><li><div class="navpage pageonly"><a href="https://linkcount.toolforge.org/">Wikipedia Link Count</a></div></li><li><div class="navpage pageonly"><a href="https://titlehistory.toolforge.org/">Wikipedia Title History</a></div></li></ul></div></li><li><div class="navpage submenu"><a href="#">Native Apps</a><svg class="submenusvg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path fill="currentColor" d="M17.5 4.75l-7.5 7.5-7.5-7.5L1 6.25l9 9 9-9z"/></svg></div><div class="navsub"><ul><li><div class="navpage pageonly"><a href="/alwaysnote/">AlwaysNote</a></div></li><li><div class="navpage pageonly"><a href="/audio-profiles/">Audio Profiles</a></div></li><li><div class="navpage pageonly"><a href="/audiovisualizer/">Audio Visualizer</a></div></li><li><div class="navpage pageonly"><a href="/clipboardcrop/">Clipboard Crop</a></div></li><li><div class="navpage pageonly"><a href="/compactor/">Compactor</a></div></li><li><div class="navpage pageonly"><a href="/rdclm/">RDC List Manager</a></div></li><li><div class="navpage pageonly"><a href="/thoughtresume/">Thought Resume</a></div></li><li><div class="navpage pageonly"><a href="/sshstart/">SSHStart</a></div></li></ul></div></li><li><div class="navpage submenu"><a href="#">Extensions</a><svg class="submenusvg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path fill="currentColor" d="M17.5 4.75l-7.5 7.5-7.5-7.5L1 6.25l9 9 9-9z"/></svg></div><div class="navsub"><ul><li><div class="navpage pageonly"><a href="https://marketplace.visualstudio.com/items?itemName=brandonfowler.exe-runner">exe Runner</a></div></li><li><div class="navpage pageonly"><a href="https://marketplace.visualstudio.com/items?itemName=brandonfowler.file-shortcuts">File Shortcuts</a></div></li><li><div class="navpage pageonly"><a href="https://www.mediawiki.org/wiki/Extension:UseResource">UseResource</a></div></li><li><div class="navpage pageonly"><a href="https://github.com/BrandonXLF/wikipedia-user-scripts">Wikipedia User Scripts</a></div></li><li><div class="navpage pageonly"><a href="https://github.com/BrandonXLF/BetterDiscordPlugins">BetterDiscord Plugins</a></div></li><li><div class="navpage pageonly"><a href="https://github.com/BrandonXLF/NBT.php">NBT.php</a></div></li><li><div class="navpage pageonly"><a href="https://greasyfork.org/en/scripts/457413-google-knowledge-graph-id">Google Knowledge Graph ID</a></div></li></ul></div></li><li class="onlytoolbar toolbardivider">|</li><li><div class="navpage submenu"><a href="#">Socials</a><svg class="submenusvg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path fill="currentColor" d="M17.5 4.75l-7.5 7.5-7.5-7.5L1 6.25l9 9 9-9z"/></svg></div><div class="navsub"><ul><li><div class="navpage pageonly"><a href="https://www.instagram.com/brandonfowler.me/">Instagram</a></div></li><li><div class="navpage pageonly"><a href="https://twitter.com/brandfowl">Twitter</a></div></li><li><div class="navpage pageonly"><a href="https://www.facebook.com/brandonfowler.me/">Facebook</a></div></li><li><div class="navpage pageonly"><a href="https://github.com/BrandonXLF">GitHub</a></div></li><li><div class="navpage pageonly"><a href="https://www.linkedin.com/in/BrandonXLF/">LinkedIn</a></div></li></ul></div></li><li><div class="navpage pageonly"><a href="/repos/">Repos</a></div></li><li><div class="navpage pageonly"><a href="/donate/">Donate</a></div></li><li><div class="navpage pageonly"><a href="/contact/">Contact</a></div></li><li class="onlytoolbar toolbardivider">|</li><li><div class="navpage pageonly"><a href="/register/?goto=%2Fskyblockah%2F"><span id="register">Register</span></a></div></li><li><div class="navpage pageonly"><a href="/login/?goto=%2Fskyblockah%2F"><span id="login">Login</span></a></div></li></ul>
+		<label for="showmini" id="hidenav" tabindex="0">&times;</label>
+		<label for="showmini"  id="mobilebg"></label>
+	</nav>
+	<script src="/global.js?v=1689829129"></script>
+	<div id="top" tabindex="-1"></div>
+		<div id="main">
+			<header>
+				<h1>Hypixel SkyBlock Auction House</a></h1>
+				<form id="search">
+					<label>
+						Sort:
+						<select name="sort">
+							<option value="expensive" selected="selected">Highest price</option>							<option value="cheap">Lowest price</option>							<option value="highest">Highest bid</option>							<option value="lowest">Lowest bid</option>							<option value="soon">Ending soon</option>							<option value="later">Ending later</option>							<option value="most">Most bids</option>							<option value="least">Least bids</option>							<option value="random">Random</option>						</select>
+					</label>
+					<label>
+						Tier:
+						<select name="tier">
+							<option value="" selected="selected">Any</option>							<option value="common">Common</option>							<option value="uncommon">Uncommon</option>							<option value="rare">Rare</option>							<option value="epic">Epic</option>							<option value="legendary">Legendary</option>							<option value="mythic">Mythic</option>							<option value="supreme">Divine</option>							<option value="special">Special</option>							<option value="very_special">Very Special</option>						</select>
+					</label>
+					<label>
+						Type:
+						<select name="type">
+							<option value="" selected="selected">Any</option>							<option value="weapon">Weapons</option>							<option value="armor">Armor</option>							<option value="accessories">Accessories</option>							<option value="consumables">Consumables</option>							<option value="blocks">Blocks</option>							<option value="misc">Tools & Misc</option>						</select>
+					</label>
+					<label>
+						<abbr title="Buy it now">BIN</abbr>: 
+						<select name="bin">
+							<option value="" selected="selected">Any</option>							<option value="yes">Yes</option>							<option value="no">No</option>						</select>
+					</label>
+					<label class="placeholder" style="display:inline-block;margin:0 3px;" ><input type="text" name="player" value="" placeholder=" "></input><div>Player</div></label>					<label class="placeholder" style="display:inline-block;margin:0 3px;" ><input type="text" name="q" value="" placeholder=" "></input><div>Query</div></label>					<span>
+						<input type="reset" id="clear" value="Clear" class="secondary">
+						<input type="submit" id="submit" value="Search">
+					</span>
+				</form>
+				<div id="paging">
+					<span id="page-number">1/2117</span><a href="?page=2" class="change-page" data-page="2"><button tabindex="-1" class="secondary"> Next</button></a><a href="?page=2117" class="change-page" data-page="2117"><button tabindex="-1" class="secondary"> Last</button></a>				</div>
+				<div id="status">
+						Last updated 11:38:36 AM 5 October 2023 EDT<a href="" id="autoreload-indicator" title="Update now (page auto updates every 2 minutes)"></a>
+				</div>
+			</header>
+			<main id="results">
+				<section id="list">
+							<article class="item" data-uuid="1db6f439b1cc461c94fe2e025a5a9a74">
+			<h2>
+				<a href="https://hypixel-skyblock.fandom.com/wiki/Hyperion" class="item-link" target="skyblockwiki"><span style="color:#FF55FF">Heroic Hyperion </span><span style="color:#FFAA00">✪</span><span style="color:#FFAA00">✪</span><span style="color:#FFAA00">✪</span><span style="color:#FFAA00">✪</span><span style="color:#FFAA00">✪</span></a>
+				<small>x1</small>
+			</h2>
+			<div class="endtime" data-time="1697289982041"></div>
+							<div>
+					<div class="label">Buy it now</div>
+					<div>4,800,000,000</div>
+				</div>
+					</article>
+			<article class="item" data-uuid="315d9253993e4b878625c92c41a216b6">
+			<h2>
+				<a href="https://hypixel-skyblock.fandom.com/wiki/Flex Helmet" class="item-link" target="skyblockwiki"><span style="color:#FF55FF">Flex Helmet</span></a>
+				<small>x1</small>
+			</h2>
+			<div class="endtime" data-time="1696610683582"></div>
+							<div>
+					<div class="label">Buy it now</div>
+					<div>4,206,969,420</div>
+				</div>
+					</article>
+			<article class="item" data-uuid="6a72c48b539a4a5fbedcec83247adf20">
+			<h2>
+				<a href="https://hypixel-skyblock.fandom.com/wiki/Dark Claymore" class="item-link" target="skyblockwiki"><span style="color:#FF55FF">Withered Dark Claymore </span><span style="color:#FFAA00">✪</span><span style="color:#FFAA00">✪</span><span style="color:#FFAA00">✪</span><span style="color:#FFAA00">✪</span><span style="color:#FFAA00">✪</span><span style="color:#FF5555">➎</span></a>
+				<small>x1</small>
+			</h2>
+			<div class="endtime" data-time="1697498222526"></div>
+							<div>
+					<div class="label">Buy it now</div>
+					<div>4,100,000,000</div>
+				</div>
+					</article>
+			<article class="item" data-uuid="69351df8d80f4cccb5f98bc337410d15">
+			<h2>
+				<a href="https://hypixel-skyblock.fandom.com/wiki/Super Cleaver" class="item-link" target="skyblockwiki"><span style="color:#5555FF">Super Cleaver</span></a>
+				<small>x1</small>
+			</h2>
+			<div class="endtime" data-time="1697430622434"></div>
+							<div>
+					<div class="label">Buy it now</div>
+					<div>3,800,000,000</div>
+				</div>
+					</article>
+			<article class="item" data-uuid="2d0c141c1a8c44e79c78c7dcefdc037a">
+			<h2>
+				<a href="https://hypixel-skyblock.fandom.com/wiki/SOS Flare" class="item-link" target="skyblockwiki"><span style="color:#FFAA00">SOS Flare</span></a>
+				<small>x1</small>
+			</h2>
+			<div class="endtime" data-time="1696607309422"></div>
+							<div>
+					<div class="label">Buy it now</div>
+					<div>3,620,000,000</div>
+				</div>
+					</article>
+			<article class="item" data-uuid="bdc0880a37df4bd5bec032cd01551569">
+			<h2>
+				<a href="https://hypixel-skyblock.fandom.com/wiki/Giant Fishing Rod" class="item-link" target="skyblockwiki"><span style="color:#FF55FF">Lucky Giant Fishing Rod</span></a>
+				<small>x1</small>
+			</h2>
+			<div class="endtime" data-time="1697454143779"></div>
+							<div>
+					<div class="label">Buy it now</div>
+					<div>3,498,000,000</div>
+				</div>
+					</article>
+			<article class="item" data-uuid="463f1a52eb9f4a428b8c92d0f6281362">
+			<h2>
+				<a href="https://hypixel-skyblock.fandom.com/wiki/Dark Claymore" class="item-link" target="skyblockwiki"><span style="color:#FF55FF">Withered Dark Claymore </span><span style="color:#FFAA00">✪</span><span style="color:#FFAA00">✪</span><span style="color:#FFAA00">✪</span><span style="color:#FFAA00">✪</span><span style="color:#FFAA00">✪</span><span style="color:#FF5555">➎</span></a>
+				<small>x1</small>
+			</h2>
+			<div class="endtime" data-time="1697359174406"></div>
+							<div>
+					<div class="label">Buy it now</div>
+					<div>3,400,000,000</div>
+				</div>
+					</article>
+			<article class="item" data-uuid="4f5a0a915e0c44689bb5c08e803d364c">
+			<h2>
+				<a href="https://hypixel-skyblock.fandom.com/wiki/Hyperion" class="item-link" target="skyblockwiki"><span style="color:#FF55FF">Heroic Hyperion </span><span style="color:#FFAA00">✪</span><span style="color:#FFAA00">✪</span><span style="color:#FFAA00">✪</span><span style="color:#FFAA00">✪</span><span style="color:#FFAA00">✪</span><span style="color:#FF5555">➎</span></a>
+				<small>x1</small>
+			</h2>
+			<div class="endtime" data-time="1696708937368"></div>
+							<div>
+					<div class="label">Buy it now</div>
+					<div>3,400,000,000</div>
+				</div>
+					</article>
+			<article class="item" data-uuid="387db31785ac46e6b7924752c2c471a9">
+			<h2>
+				<a href="https://hypixel-skyblock.fandom.com/wiki/Pitchin&#039; Giant Fishing Rod" class="item-link" target="skyblockwiki"><span style="color:#FF55FF">Pitchin&#039; Giant Fishing Rod</span></a>
+				<small>x1</small>
+			</h2>
+			<div class="endtime" data-time="1697597200052"></div>
+							<div>
+					<div class="label">Buy it now</div>
+					<div>3,300,000,000</div>
+				</div>
+					</article>
+			<article class="item" data-uuid="e6a8102b91c0415a99fe55c21db8cb43">
+			<h2>
+				<a href="https://hypixel-skyblock.fandom.com/wiki/Hyperion" class="item-link" target="skyblockwiki"><span style="color:#FF55FF">Withered Hyperion </span><span style="color:#FFAA00">✪</span><span style="color:#FFAA00">✪</span><span style="color:#FFAA00">✪</span><span style="color:#FFAA00">✪</span><span style="color:#FFAA00">✪</span><span style="color:#FF5555">➎</span></a>
+				<small>x1</small>
+			</h2>
+			<div class="endtime" data-time="1696834477387"></div>
+							<div>
+					<div class="label">Buy it now</div>
+					<div>3,000,000,000</div>
+				</div>
+					</article>
+			<article class="item" data-uuid="851d40004b8c43f4be258e5a9df5a040">
+			<h2>
+				<a href="https://hypixel-skyblock.fandom.com/wiki/Hyperion" class="item-link" target="skyblockwiki"><span style="color:#FF55FF">Heroic Hyperion </span><span style="color:#FFAA00">✪</span><span style="color:#FFAA00">✪</span><span style="color:#FFAA00">✪</span><span style="color:#FFAA00">✪</span><span style="color:#FFAA00">✪</span></a>
+				<small>x1</small>
+			</h2>
+			<div class="endtime" data-time="1696832112209"></div>
+							<div>
+					<div class="label">Buy it now</div>
+					<div>2,999,999,999</div>
+				</div>
+					</article>
+			<article class="item" data-uuid="5f2a1e297fa54cc3921a61f000f8024d">
+			<h2>
+				<a href="https://hypixel-skyblock.fandom.com/wiki/SOS Flare" class="item-link" target="skyblockwiki"><span style="color:#FFAA00">SOS Flare</span></a>
+				<small>x1</small>
+			</h2>
+			<div class="endtime" data-time="1697678203141"></div>
+							<div>
+					<div class="label">Buy it now</div>
+					<div>2,900,000,000</div>
+				</div>
+					</article>
+			<article class="item" data-uuid="b082d955c24d4f1ca2573411ac8147c1">
+			<h2>
+				<a href="https://hypixel-skyblock.fandom.com/wiki/Daedalus Axe" class="item-link" target="skyblockwiki"><span style="color:#FF55FF">Withered Daedalus Axe</span></a>
+				<small>x1</small>
+			</h2>
+			<div class="endtime" data-time="1697068686002"></div>
+							<div>
+					<div class="label">Buy it now</div>
+					<div>2,874,999,999</div>
+				</div>
+					</article>
+			<article class="item" data-uuid="51303c35d9a54525b61d797d878e010f">
+			<h2>
+				<a href="https://hypixel-skyblock.fandom.com/wiki/Daedalus Axe" class="item-link" target="skyblockwiki"><span style="color:#FF55FF">Fabled Daedalus Axe</span></a>
+				<small>x1</small>
+			</h2>
+			<div class="endtime" data-time="1697389692218"></div>
+							<div>
+					<div class="label">Buy it now</div>
+					<div>2,850,000,000</div>
+				</div>
+					</article>
+			<article class="item" data-uuid="058e54e45a3a4a3786f9ea8b1f7c8585">
+			<h2>
+				<a href="https://hypixel-skyblock.fandom.com/wiki/Daedalus Axe" class="item-link" target="skyblockwiki"><span style="color:#FF55FF">Withered Daedalus Axe</span></a>
+				<small>x1</small>
+			</h2>
+			<div class="endtime" data-time="1697712660203"></div>
+							<div>
+					<div class="label">Buy it now</div>
+					<div>2,849,999,999</div>
+				</div>
+					</article>
+			<article class="item" data-uuid="e3f989a9dc6b499f88e47e8ff7689648">
+			<h2>
+				<a href="https://hypixel-skyblock.fandom.com/wiki/SOS Flare" class="item-link" target="skyblockwiki"><span style="color:#FFAA00">SOS Flare</span></a>
+				<small>x1</small>
+			</h2>
+			<div class="endtime" data-time="1696880100174"></div>
+							<div>
+					<div class="label">Buy it now</div>
+					<div>2,760,000,000</div>
+				</div>
+					</article>
+			<article class="item" data-uuid="543584f60d464111b2ca4c191c69628c">
+			<h2>
+				<a href="https://hypixel-skyblock.fandom.com/wiki/Hyperion" class="item-link" target="skyblockwiki"><span style="color:#FF55FF">Fabled Hyperion </span><span style="color:#FFAA00">✪</span><span style="color:#FFAA00">✪</span><span style="color:#FFAA00">✪</span><span style="color:#FFAA00">✪</span><span style="color:#FFAA00">✪</span><span style="color:#FF5555">➎</span></a>
+				<small>x1</small>
+			</h2>
+			<div class="endtime" data-time="1697287858560"></div>
+							<div>
+					<div class="label">Buy it now</div>
+					<div>2,750,000,000</div>
+				</div>
+					</article>
+			<article class="item" data-uuid="14f0db1e9fc54728a85dfd7387a099f7">
+			<h2>
+				<a href="https://hypixel-skyblock.fandom.com/wiki/SOS Flare" class="item-link" target="skyblockwiki"><span style="color:#FFAA00">SOS Flare</span></a>
+				<small>x1</small>
+			</h2>
+			<div class="endtime" data-time="1697713523955"></div>
+							<div>
+					<div class="label">Buy it now</div>
+					<div>2,674,999,999</div>
+				</div>
+					</article>
+			<article class="item" data-uuid="4329c585c2664d14b778c7df9a259682">
+			<h2>
+				<a href="https://hypixel-skyblock.fandom.com/wiki/SOS Flare" class="item-link" target="skyblockwiki"><span style="color:#FFAA00">SOS Flare</span></a>
+				<small>x1</small>
+			</h2>
+			<div class="endtime" data-time="1697727189945"></div>
+							<div>
+					<div class="label">Buy it now</div>
+					<div>2,673,000,000</div>
+				</div>
+					</article>
+			<article class="item" data-uuid="13877bb319bf4f118917280723d41d53">
+			<h2>
+				<a href="https://hypixel-skyblock.fandom.com/wiki/Hyperion" class="item-link" target="skyblockwiki"><span style="color:#FF55FF">Heroic Hyperion </span><span style="color:#FFAA00">✪</span><span style="color:#FFAA00">✪</span><span style="color:#FFAA00">✪</span><span style="color:#FFAA00">✪</span><span style="color:#FFAA00">✪</span><span style="color:#FF5555">➌</span></a>
+				<small>x1</small>
+			</h2>
+			<div class="endtime" data-time="1697205602176"></div>
+							<div>
+					<div class="label">Buy it now</div>
+					<div>2,650,000,000</div>
+				</div>
+					</article>
+			<article class="item" data-uuid="dab182425f8f4a588332a14116da735c">
+			<h2>
+				<a href="https://hypixel-skyblock.fandom.com/wiki/SOS Flare" class="item-link" target="skyblockwiki"><span style="color:#FFAA00">SOS Flare</span></a>
+				<small>x1</small>
+			</h2>
+			<div class="endtime" data-time="1697555191129"></div>
+							<div>
+					<div class="label">Buy it now</div>
+					<div>2,620,000,000</div>
+				</div>
+					</article>
+			<article class="item" data-uuid="c222b08326d148b887e0c1f9437922e4">
+			<h2>
+				<a href="https://hypixel-skyblock.fandom.com/wiki/Bone Dye" class="item-link" target="skyblockwiki"><span style="color:#AA00AA">Bone Dye</span></a>
+				<small>x1</small>
+			</h2>
+			<div class="endtime" data-time="1697480067811"></div>
+							<div>
+					<div class="label">Buy it now</div>
+					<div>2,500,000,000</div>
+				</div>
+					</article>
+			<article class="item" data-uuid="c12ff2afc05c4260bc08d1e1ec9cd494">
+			<h2>
+				<a href="https://hypixel-skyblock.fandom.com/wiki/Hyperion" class="item-link" target="skyblockwiki"><span style="color:#FF55FF">Heroic Hyperion </span><span style="color:#FFAA00">✪</span><span style="color:#FFAA00">✪</span><span style="color:#FFAA00">✪</span><span style="color:#FFAA00">✪</span><span style="color:#FFAA00">✪</span><span style="color:#FF5555">➊</span></a>
+				<small>x1</small>
+			</h2>
+			<div class="endtime" data-time="1697235331165"></div>
+							<div>
+					<div class="label">Buy it now</div>
+					<div>2,455,000,000</div>
+				</div>
+					</article>
+			<article class="item" data-uuid="ccae98f7f5e74b99b19ed5b8c40d1a7b">
+			<h2>
+				<a href="https://hypixel-skyblock.fandom.com/wiki/Daedalus Axe" class="item-link" target="skyblockwiki"><span style="color:#FF55FF">Fabled Daedalus Axe</span></a>
+				<small>x1</small>
+			</h2>
+			<div class="endtime" data-time="1697158360129"></div>
+							<div>
+					<div class="label">Buy it now</div>
+					<div>2,450,000,000</div>
+				</div>
+					</article>
+			<article class="item" data-uuid="e055fbdf22904b129046bd2ed6b956b3">
+			<h2>
+				<a href="https://hypixel-skyblock.fandom.com/wiki/Hyperion" class="item-link" target="skyblockwiki"><span style="color:#FF55FF">Heroic Hyperion </span><span style="color:#FFAA00">✪</span><span style="color:#FFAA00">✪</span><span style="color:#FFAA00">✪</span><span style="color:#FFAA00">✪</span><span style="color:#FFAA00">✪</span><span style="color:#FF5555">➎</span></a>
+				<small>x1</small>
+			</h2>
+			<div class="endtime" data-time="1697580178544"></div>
+							<div>
+					<div class="label">Buy it now</div>
+					<div>2,375,000,000</div>
+				</div>
+					</article>
+			<article class="item" data-uuid="4c9fc05cf78449eaa72b76e123506446">
+			<h2>
+				<a href="https://hypixel-skyblock.fandom.com/wiki/Hyperion" class="item-link" target="skyblockwiki"><span style="color:#FF55FF">Heroic Hyperion </span><span style="color:#FFAA00">✪</span><span style="color:#FFAA00">✪</span><span style="color:#FFAA00">✪</span><span style="color:#FFAA00">✪</span><span style="color:#FFAA00">✪</span></a>
+				<small>x1</small>
+			</h2>
+			<div class="endtime" data-time="1696684665410"></div>
+							<div>
+					<div class="label">Buy it now</div>
+					<div>2,200,000,000</div>
+				</div>
+					</article>
+			<article class="item" data-uuid="5dc0a9574d2f482a911034ae0a4dd0b2">
+			<h2>
+				<a href="https://hypixel-skyblock.fandom.com/wiki/Astraea" class="item-link" target="skyblockwiki"><span style="color:#FF55FF">Withered Astraea </span><span style="color:#FFAA00">✪</span><span style="color:#FFAA00">✪</span><span style="color:#FFAA00">✪</span><span style="color:#FFAA00">✪</span><span style="color:#FFAA00">✪</span></a>
+				<small>x1</small>
+			</h2>
+			<div class="endtime" data-time="1696793281459"></div>
+							<div>
+					<div class="label">Buy it now</div>
+					<div>2,200,000,000</div>
+				</div>
+					</article>
+			<article class="item" data-uuid="7675e1bffed042b8ba0f3f4142215d2f">
+			<h2>
+				<a href="https://hypixel-skyblock.fandom.com/wiki/Astraea" class="item-link" target="skyblockwiki"><span style="color:#FF55FF">Heroic Astraea </span><span style="color:#FFAA00">✪</span><span style="color:#FFAA00">✪</span><span style="color:#FFAA00">✪</span><span style="color:#FFAA00">✪</span><span style="color:#FFAA00">✪</span><span style="color:#FF5555">➌</span></a>
+				<small>x1</small>
+			</h2>
+			<div class="endtime" data-time="1697688900805"></div>
+							<div>
+					<div class="label">Buy it now</div>
+					<div>2,200,000,000</div>
+				</div>
+					</article>
+					</section>
+				<aside id="info">
+									</aside>
+			</main>
+			<footer>
+				Data is cached from the Hypixel API. New auctions may take a few minutes to appear.
+			</footer>
+		</div>
+		<script>
+			function urlQuery() {
+				var search = window.location.search
+					.replace(/^\?/, '')
+					.split('&')
+					.reduce(function(obj, str) {
+						var pair = str.split('=');
+						var key = decodeURIComponent(pair.shift());
+						var val = decodeURIComponent(pair.join('='));
+						
+						if (key)
+							obj[key] = val;
+				
+						return obj;
+					}, {});
+
+				return {
+					set: function(key, value) {
+						search[key] = value || '';
+						return this;
+					},
+					remove: function(key) {
+						delete search[key];
+						return this;
+					},
+					get: function(key) {
+						return search[key] || '';
+					},
+					getAll: function() {
+						return search;
+					},
+					toString: function(key) {
+						var query = [];
+						
+						for (var key in search)
+							query.push(encodeURIComponent(key) + '=' + encodeURIComponent(search[key]));
+
+						return (query.length ? '?' : '') + query.join('&');
+					},
+					apply: function() {
+						history.pushState({}, '', window.location.pathname + this);
+						
+						return this;
+					}
+				}
+			}
+
+			function fromNow(time) {
+				var now = new Date().getTime(),
+					diff = Math.round(Math.abs(now - time) / 1000),
+					past = now > time,
+					out = [],
+					times = [
+						[604800, 'w'],
+						[86400, 'd'],
+						[3600, 'h'],
+						[60, 'm'],
+						[1, 's']
+					];
+
+				for (var i = 0; i < times.length; i++) {
+					var unit = Math.floor(diff / times[i][0]);
+
+					diff = diff % times[i][0];
+					
+					if (unit)
+						out.push(unit + times[i][1]);
+				}
+
+				out = out.join(' ') || '0s';
+
+				if (past)
+					out += ' ago';
+
+				return [ out, past ];
+			}
+
+			function liveTime() {
+				var ending = byClass('endtime');
+
+				for (var i = 0; i < ending.length; i++) {
+					var time = fromNow(ending[i].getAttribute('data-time'));
+
+					ending[i].innerHTML = time[0];
+
+					if (!ending[i].hasAttribute('data-no-red'))
+						ending[i].style.color = time[1] ? 'red' : '';
+				}
+			}
+
+			function copyText(text, target, orginalText) {
+				var el = create('textarea');
+
+				el.value = text;
+				body.appendChild(el);
+				el.select();
+				doc.execCommand('copy');
+				body.removeChild(el);
+				
+				if (target.timer) clearTimeout(target.timer);
+				
+				target.innerHTML = 'Copied';
+
+				target.timer = setTimeout(function() {
+					target.innerHTML = orginalText;
+
+					delete target.timer;
+				}, 1000);
+			}
+			
+			function reloadParts(parts, loadingID) {
+				var targets = {};
+				
+				if (!parts.join)
+					parts = [parts];
+				
+				for (var i = 0; i < parts.length; i++) {
+					targets[parts[i]] = byId(parts[i]);
+					byId(parts[i]).setAttribute('data-loading', '');
+				}
+				
+				http(urlQuery().set('parts', parts.join(',')).toString(), {
+					success: function(parts) {
+						for (var part in parts) {
+							targets[part].innerHTML = parts[part];
+							targets[part].removeAttribute('data-loading');
+						}
+
+						liveTime();
+						addListeners();
+					}
+				});
+				
+				byId(loadingID || parts[0]).innerHTML = '<div class="loading">Loading...</div>';
+			}
+			
+			function loadPage(page, reloadInfo) {
+				if (page)
+					urlQuery().set('page', page).apply();
+				
+				var parts = ['list', 'paging', 'status'];
+				
+				if (reloadInfo) {
+					if (urlQuery().get('uuid'))
+						parts.push('info');
+					else
+						byId('info').innerHTML = '';
+				}
+				
+				reloadParts(parts, 'status');
+			}
+			
+			function search(fallback) {
+				if ('FormData' in window) {
+					var url = urlQuery(),
+						entries = new FormData(byId('search')).entries(),
+						result = entries.next();
+					
+					while (!result.done) {
+						var entry = result.value;
+						
+						if (!entry[1]) {
+							url.remove(entry[0]);
+						} else {
+							url.set(entry[0], entry[1]);
+						}
+				
+						result = entries.next();
+					}
+					
+					url.remove('page');
+					url.apply();
+
+					loadPage();
+				} else if (fallback) {
+					byId('submit').click();
+				}
+			}
+			
+			function resetForm(newValues, doNotSubmit) {
+				var elements = byId('search').elements;
+				
+				for (var i = 0; i < elements.length; i++) {
+					var element = elements[i];
+					
+					if (element.type === 'submit' || element.type === 'button' || element.type === 'reset')
+						continue;
+					
+					if (element.tagName === 'SELECT') {
+						element.selectedIndex = 0;
+						continue;
+					}
+					
+					element.value = '';
+				}
+				
+				if (newValues)
+					for (var key in newValues) {
+						var el = document.getElementsByName(key)[0];
+						
+						if (el)
+							el.value = newValues[key];
+					}
+				
+				if (!doNotSubmit)
+					search(true);
+			}
+			
+			function addListeners() {
+				var addedElements = [];
+				
+				function addById(id, event, listener) {
+					var el = byId(id);
+					
+					if (!el || el.addedListeners) return;
+					
+					addedElements.push(el);
+					el.on(event, listener);
+				}
+				
+				function addByClass(className, event, listener) {
+					var els = byClass(className);
+					
+					for (var i = 0; i < els.length; i++) {
+						if (els[i].addListeners) continue;
+						
+						addedElements.push(els[i]);
+						els[i].on(event, listener);
+					}
+				}
+				
+				addByClass('change-page', 'click', function(e) {
+					e.preventDefault();
+					loadPage(this.getAttribute('data-page'));
+				});
+
+				addByClass('item', 'click', onItemClicked);
+
+				addById('view-bids', 'click', function() {
+					if (!byId('bids').hasAttribute('data-loading'))
+						reloadParts('bids');
+				});
+
+				addByClass('item-link', 'click', function(e) {
+					e.stopPropagation();
+				})
+				
+				addById('info-close', 'click', function() {
+					byId('info').innerHTML = '';
+					urlQuery().remove('uuid').apply();
+				});
+				
+				addById('copy-ah', 'click', function() {
+					copyText('/ah ' + this.getAttribute('data-name'), this, 'Copy /ah');
+				});
+				
+				addById('copy-view', 'click', function() {
+					copyText('/viewauction ' + this.getAttribute('data-uuid'), this, 'Copy /viewauction');
+				});
+				
+				addById('show-player', 'click', function(e) {
+					e.preventDefault();
+					
+					resetForm({
+						player: this.getAttribute('data-name')
+					});
+				});
+				
+				addById('autoreload-indicator', 'click', function(e) {
+					e.preventDefault();
+					loadPage(null, true);
+				});
+				
+				for (var i = 0; i < addedElements.length; i++) {
+					addedElements[i].addedListeners = true;
+				}
+			}
+
+			function onItemClicked(e) {
+				var uuid = this.getAttribute('data-uuid');
+				
+				urlQuery().set('uuid', uuid).apply();
+				
+				if (window.getComputedStyle(byId('info')).getPropertyValue('position') !== 'sticky')
+					window.scrollTo(0, 0);
+				
+				reloadParts('info');
+			}
+
+			setInterval(liveTime, 1000);
+			liveTime();
+			addListeners();
+
+			byId('search').addEventListener('submit', function(e) {
+				e.preventDefault();
+				search();
+			});
+	
+			byId('clear').addEventListener('click', function(e) {
+				e.preventDefault();
+				resetForm();
+			});
+
+			window.on('popstate', function(e) {
+				resetForm(urlQuery().getAll(), true);
+				loadPage(null, true);
+			});
+
+			setInterval(function() {
+				loadPage();
+			}, 1000 * 60 * 2);
+		</script>
+	</body>
+</html>
