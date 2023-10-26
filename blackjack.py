@@ -5,7 +5,7 @@ print(Total_penge)
 
 def gamble():
     while True:
-        gamble = input("hvor meget vil du gamble? du har " +  str(Total_penge ))
+        gamble = input("hvor meget vil du gamble? du har " + Total_penge )
         if gamble.isdigit():
             gamble = int(gamble)
             if gamble > 0:
