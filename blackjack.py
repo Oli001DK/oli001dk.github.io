@@ -30,6 +30,8 @@ dealerhand2 = random.randint(2,11)
 if dealerhand1 and dealerhand2 == 22:
     print("Dealer har tabt")
     Deposit()
+dealerhand = dealerhand1 + dealerhand2
 print("du har " + str(hand))
 print("dealer har " + str(dealerhand1))
+print(dealerhand)
 print("Vil du har ")
