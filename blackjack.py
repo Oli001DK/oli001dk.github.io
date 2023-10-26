@@ -3,9 +3,9 @@ Total_penge = random.randint(1000,2000)
 
 print(Total_penge)
 
-def total():
+def gamble():
     while True:
-        gamble = input("hvor meget vil du gmable?" )
+        gamble = input("hvor meget vil du gamble? du har " +  str(Total_penge ))
         if gamble.isdigit():
             gamble = int(gamble)
             if gamble > 0:
@@ -15,3 +15,5 @@ def total():
         else:
             print("det kan være et nummer")
     return gamble
+
+gamble()
