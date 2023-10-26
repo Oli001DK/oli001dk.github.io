@@ -1,11 +1,10 @@
 import random
 Total_penge = random.randint(1000,2000)
 
-print(Total_penge)
-
-def gamble():
+def Deposit():
     while True:
-        gamble = input("hvor meget vil du gamble? du har " + Total_penge )
+        print("hvor meget vil du gamble? du har " + str(Total_penge))
+        gamble = input()
         if gamble.isdigit():
             gamble = int(gamble)
             if gamble > 0:
@@ -16,4 +15,4 @@ def gamble():
             print("det kan være et nummer")
     return gamble
 
-gamble()
+Deposit()
