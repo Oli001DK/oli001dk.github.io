@@ -5,4 +5,5 @@ URL = 'https://api.hypixel.net/skyblock/auctions'
 
 response = requests.get(URL)
 data = response.json()
-print(data)
+data2 = data.find("Feather Ring")
+print(data2)
