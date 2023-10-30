@@ -1,7 +1,4 @@
 MAX_LINE = 3
-import random
-tal1 = random.randint(1,3)
-tal2 = random.randint(1,3)
 def deposit():
     while True:
 
@@ -31,6 +28,3 @@ def lines():
 
 deposit()
 lines()
-
-if tal1 == tal2:
-    deposit = deposit * 2
