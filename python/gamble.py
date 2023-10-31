@@ -26,6 +26,7 @@ def lines():
         else:
             print("det skal være et nummer")
     return lines
+
 def gamble():
     nummer1 = random.randint(1,9)
     print(nummer1)
@@ -42,6 +43,3 @@ def gamble():
 deposit()
 lines()
 gamble()
-
-(gamble() * deposit()) + Total_penge == Total_penge2
-print(Total_penge2)
