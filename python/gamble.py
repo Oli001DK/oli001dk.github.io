@@ -1,8 +1,9 @@
+import random
+Total_penge = random.randint(1000,2000)
 MAX_LINE = 3
 def deposit():
     while True:
-
-        penge = input("hvor meget vil du deposit?" )
+        penge = input("Hvor meget vil du gamble? du har " + str(Total_penge) + "? ")
         if penge.isdigit():
             penge = int(penge)
             if penge > 0:
@@ -25,6 +26,22 @@ def lines():
         else:
             print("det skal være et nummer")
     return lines
+def gamble():
+    nummer1 = random.randint(1,9)
+    print(nummer1)
+    if nummer1 == 1 or 2:
+        deposit_gange = 0
+    elif nummer1 == 4 or 5 or 6:
+        deposit_gange = 1
+    elif nummer1 == 3 or 7 or 8:
+        deposit_gange = 2
+    elif nummer1 == 9:
+        deposit_gange = 3
+    return deposit_gange
 
 deposit()
 lines()
+gamble()
+
+(gamble() * deposit()) + Total_penge == Total_penge2
+print(Total_penge2)
