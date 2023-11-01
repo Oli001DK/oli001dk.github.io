@@ -7,10 +7,10 @@ DD = 200
 from colorama import Fore, Style
 
 # API endpoint for auction house data
-url = "https://api.hypixel.net/skyblock/auctions"
+URL = "https://api.hypixel.net/skyblock/auctions"
 
 # Send GET request to the API
-response = requests.get("https://api.hypixel.net/skyblock/auctions")
+response = requests.get(URL)
 
 # Check if the request was successful
 if DD == 200:
@@ -33,7 +33,7 @@ if DD == 200:
         # Iterate through each page of auction data
         for page in range(1, total_pages + 1):
             # Send GET request for each page
-            page_url = f"{url}&page={page}"
+            page_url = f"{URL}&page={page}"
             page_response = requests.get(page_url)
 
             # Check if the request was successful

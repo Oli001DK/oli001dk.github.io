@@ -32,11 +32,11 @@ def gamble():
     print(nummer1)
     if nummer1 == 1 or 2:
         deposit_gange = 0
-    elif nummer1 == 4 or 5 or 6:
+    if nummer1 == 4 or 5 or 6:
         deposit_gange = 1
-    elif nummer1 == 3 or 7 or 8:
+    if nummer1 == 3 or 7 or 8:
         deposit_gange = 2
-    elif nummer1 == 9:
+    if nummer1 == 9:
         deposit_gange = 3
     return deposit_gange
 
