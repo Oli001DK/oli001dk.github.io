@@ -33,7 +33,7 @@ if DD == 200:
         # Iterate through each page of auction data
         for page in range(1, total_pages + 1):
             # Send GET request for each page
-            page_url = f"{URL}&page={page}"
+            page_url = "{URL}&page={page}"
             page_response = requests.get(page_url)
 
             # Check if the request was successful
@@ -82,7 +82,7 @@ if DD == 200:
         output_file_path = os.path.join(os.path.dirname(__file__), 'item_info.txt')
         with open(output_file_path, 'w', encoding='utf-8') as output_file:
             for item_name, info in sorted_items:
-                output_file.write(f"{item_name}\n")
+                output_file.write("{item_name}\n")
 
                 # Sort the prices by descending order
                 sorted_info = sorted(info, key=lambda x: x[1], reverse=True)
