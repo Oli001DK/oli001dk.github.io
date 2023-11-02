@@ -27,19 +27,19 @@ def lines():
             print("det skal være et nummer")
     return lines
 
-def gamble():
+def gamble(penge):
     nummer1 = random.randint(1,9)
     print(nummer1)
     if nummer1 == 1 or 2:
-        deposit_gange = 0
+        penge =+ 0,5 * deposit
     if nummer1 == 4 or 5 or 6:
-        deposit_gange = 1
+        penge =+ 1 * deposit
     if nummer1 == 3 or 7 or 8:
-        deposit_gange = 2
+        penge =+ 2 * deposit
     if nummer1 == 9:
-        deposit_gange = 3
-    return deposit_gange
+        penge =+ 3 * deposit
+    return penge
 
 deposit()
 lines()
-gamble()
+gamble(Total_penge)
