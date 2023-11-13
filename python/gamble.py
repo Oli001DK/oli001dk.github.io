@@ -33,7 +33,7 @@ def gamble(penge):
     if nummer1 == 1 or 2:
         penge =+ 0,5 * deposit
     if nummer1 == 4 or 5 or 6:
-        penge =+ 1 * deposit
+        1 * deposit += penge
     if nummer1 == 3 or 7 or 8:
         penge =+ 2 * deposit
     if nummer1 == 9:
