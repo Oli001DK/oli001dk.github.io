@@ -2,9 +2,9 @@ import requests
 
 #Blaze rod  = EB
 #Glowstone  = EG
-#nether wart
+#nether wart = NW
 #red sand block = RS
-#mycelium block
+#mycelium block = MB
 #magma cream = MC
 
 craft_antal = input("Hvor mange skal der craftes ")
@@ -73,3 +73,32 @@ if MC_buy_summary:
         MC = sum(MC_sorted[:4]) / 4
         MC_rounded = round(MC)
         print(MC_rounded, "Whipped magma cream pr i Sell order")
+        
+MB_response = requests.get('https://api.slothpixel.me/api/skyblock/bazaar/ENCHANTED_MYCELIUM_CUBE', timeout=1)
+MB_data = MB_response.json()
+MB_buy_summary = MB_data.get("sell_summary")
+if MB_buy_summary:
+    MB_price = [summary['pricePerUnit'] for summary in MB_buy_summary]
+    MB_sorted = sorted(MB_price, reverse=True)
+    if len(MB_sorted) >= 4:
+        MB = sum(MB_sorted[:4]) / 4
+        MB_rounded = round(MB)
+        print(MB_rounded, "Enchanted Mycelium cube pr i Sell order")
+
+NW_response = requests.get('https://api.slothpixel.me/api/skyblock/bazaar/MUTANT_NETHER_STALK', timeout=1)
+NW_data = NW_response.json()
+NW_buy_summary = NW_data.get("sell_summary")
+if NW_buy_summary:
+    NW_price = [summary['pricePerUnit'] for summary in NW_buy_summary]
+    NW_sorted = sorted(NW_price, reverse=True)
+    if len(NW_sorted) >= 4:
+        NW = sum(NW_sorted[:4]) / 4
+        NW_rounded = round(NW)
+        print(NW_rounded, "Mutant Nether Wart pr i Sell order")
+        
+#Blaze rod  = EB
+#Glowstone  = EG
+#nether wart = NW
+#red sand block = RS
+#mycelium block = MB
+#magma cream = MC
