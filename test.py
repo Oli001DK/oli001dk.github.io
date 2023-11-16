@@ -8,16 +8,16 @@ import requests
 #magma cream = MC
 
 craft_antal = input("Hvor mange skal der craftes ")
-molten_powder_response = requests.get('https://api.slothpixel.me/api/skyblock/bazaar/MOLTEN_POWDER', timeout=1)
-molten_powder_data = molten_powder_response.json()
-molten_powder_buy_summary = molten_powder_data.get("sell_summary")
-if molten_powder_buy_summary:
-    molten_powder_price = [summary['pricePerUnit'] for summary in molten_powder_buy_summary]
-    molten_powder_sorted = sorted(molten_powder_price, reverse=True)
-    if len(molten_powder_sorted) >= 4:
-        molten_powder = sum(molten_powder_sorted[:4]) / 4
-        molten_powder_rounded = round(molten_powder)
-        print(molten_powder_rounded, "Moltenn powder pr i Sell order")
+mp_response = requests.get('https://api.slothpixel.me/api/skyblock/bazaar/MOLTEN_POWDER', timeout=1)
+mp_data = mp_response.json()
+mp_buy_summary = mp_data.get("sell_summary")
+if mp_buy_summary:
+    mp_price = [summary['pricePerUnit'] for summary in mp_buy_summary]
+    mp_sorted = sorted(mp_price, reverse=True)
+    if len(mp_sorted) >= 4:
+        mp = sum(mp_sorted[:4]) / 4
+        mp_rounded = round(mp)
+        print(mp_rounded, "Moltenn powder pr i Sell order")
 
 DERELICT_ASHE_response = requests.get('https://api.slothpixel.me/api/skyblock/bazaar/DERELICT_ASHE', timeout=1)
 DA_data = DERELICT_ASHE_response.json()
@@ -101,4 +101,5 @@ if NW_buy_summary:
 #nether wart = NW
 #red sand block = RS
 #mycelium block = MB
-#magma cream = MC
+#magma cream = MCt
+
