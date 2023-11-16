@@ -26,8 +26,8 @@ if DA_sell_summary:
     DA_price = [summary['pricePerUnit'] for summary in DA_sell_summary]
     DA_sorted = sorted(DA_price, reverse=True)
     if len(DA_sorted) >= 4:
-        DA = sum(DA_sorted[:4]) / 4
-        DA_rounded = round(DA)
+        da = sum(DA_sorted[:4]) / 4
+        DA_rounded = round(da)
         print(DA_rounded, "Derelict Ash Pr i Sell order")
 
 EG_response = requests.get('https://api.slothpixel.me/api/skyblock/bazaar/ENCHANTED_GLOWSTONE', timeout=1)
@@ -37,8 +37,8 @@ if EG_buy_summary:
     EG_price = [summary['pricePerUnit'] for summary in EG_buy_summary]
     EG_sorted = sorted(EG_price, reverse=True)
     if len(EG_sorted) >= 4:
-        EG = sum(EG_sorted[:4]) / 4
-        EG_rounded = round(EG)
+        eg = sum(EG_sorted[:4]) / 4
+        EG_rounded = round(eg)
         print(EG_rounded, "Enchanted Glowstone pr i Sell order")
         
 EB_response = requests.get('https://api.slothpixel.me/api/skyblock/bazaar/ENCHANTED_BLAZE_ROD', timeout=1)
@@ -48,8 +48,8 @@ if EB_buy_summary:
     EB_price = [summary['pricePerUnit'] for summary in EB_buy_summary]
     EB_sorted = sorted(EB_price, reverse=True)
     if len(EB_sorted) >= 4:
-        EB = sum(EB_sorted[:4]) / 4
-        EB_rounded = round(EB)
+        eb = sum(EB_sorted[:4]) / 4
+        EB_rounded = round(eb)
         print(EB_rounded, "Enchanted Blaze rod pr i Sell order")
              
 RS_response = requests.get('https://api.slothpixel.me/api/skyblock/bazaar/ENCHANTED_RED_SAND_CUBE', timeout=1)
@@ -59,8 +59,8 @@ if RS_buy_summary:
     RS_price = [summary['pricePerUnit'] for summary in RS_buy_summary]
     RS_sorted = sorted(RS_price, reverse=True)
     if len(RS_sorted) >= 4:
-        RS = sum(RS_sorted[:4]) / 4
-        RS_rounded = round(RS)
+        rs = sum(RS_sorted[:4]) / 4
+        RS_rounded = round(rs)
         print(RS_rounded, "Enchanted Red Sand Cube pr i Sell order")
 
 MC_response = requests.get('https://api.slothpixel.me/api/skyblock/bazaar/WHIPPED_MAGMA_CREAM', timeout=1)
@@ -70,8 +70,8 @@ if MC_buy_summary:
     MC_price = [summary['pricePerUnit'] for summary in MC_buy_summary]
     MC_sorted = sorted(MC_price, reverse=True)
     if len(MC_sorted) >= 4:
-        MC = sum(MC_sorted[:4]) / 4
-        MC_rounded = round(MC)
+        mc = sum(MC_sorted[:4]) / 4
+        MC_rounded = round(mc)
         print(MC_rounded, "Whipped magma cream pr i Sell order")
         
 MB_response = requests.get('https://api.slothpixel.me/api/skyblock/bazaar/ENCHANTED_MYCELIUM_CUBE', timeout=1)
@@ -81,8 +81,8 @@ if MB_buy_summary:
     MB_price = [summary['pricePerUnit'] for summary in MB_buy_summary]
     MB_sorted = sorted(MB_price, reverse=True)
     if len(MB_sorted) >= 4:
-        MB = sum(MB_sorted[:4]) / 4
-        MB_rounded = round(MB)
+        mb = sum(MB_sorted[:4]) / 4
+        MB_rounded = round(mb)
         print(MB_rounded, "Enchanted Mycelium cube pr i Sell order")
 
 NW_response = requests.get('https://api.slothpixel.me/api/skyblock/bazaar/MUTANT_NETHER_STALK', timeout=1)
@@ -92,8 +92,8 @@ if NW_buy_summary:
     NW_price = [summary['pricePerUnit'] for summary in NW_buy_summary]
     NW_sorted = sorted(NW_price, reverse=True)
     if len(NW_sorted) >= 4:
-        NW = sum(NW_sorted[:4]) / 4
-        NW_rounded = round(NW)
+        nw = sum(NW_sorted[:4]) / 4
+        NW_rounded = round(nw)
         print(NW_rounded, "Mutant Nether Wart pr i Sell order")
         
 #Blaze rod  = EB
@@ -102,11 +102,7 @@ if NW_buy_summary:
 #red sand block = RS
 #mycelium block = MB
 #magma cream = MC
-
-EB * 4 = precrimson
-EG_rounded * 4 + precrimson = precrimson1
-
-+ NW_rounded * 4  = precrimson
-MC * 4 + MB + RS = crismon 
-
+crimson = 0
+eb * 4 + eg * 4 + nw * 4 + mb + rs += crismon 
+print(crimsom)
 
