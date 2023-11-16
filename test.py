@@ -101,5 +101,12 @@ if NW_buy_summary:
 #nether wart = NW
 #red sand block = RS
 #mycelium block = MB
-#magma cream = MCt
+#magma cream = MC
+
+EB * 4 = precrimson
+EG_rounded * 4 + precrimson = precrimson1
+
++ NW_rounded * 4  = precrimson
+MC * 4 + MB + RS = crismon 
+
 
