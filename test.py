@@ -17,10 +17,10 @@ if mp_buy_summary:
     if len(mp_sorted) >= 4:
         mp = sum(mp_sorted[:4]) / 4
         mp_rounded = round(mp)
-        print(mp_rounded, "Moltenn powder pr i Sell order")
+        print(mp_rounded, "Molten powder pr i Sell order")
 
-DERELICT_ASHE_response = requests.get('https://api.slothpixel.me/api/skyblock/bazaar/DERELICT_ASHE', timeout=1)
-DA_data = DERELICT_ASHE_response.json()
+DA_response = requests.get('https://api.slothpixel.me/api/skyblock/bazaar/DERELICT_ASHE', timeout=1)
+DA_data = DA_response.json()
 DA_sell_summary = DA_data.get("sell_summary")
 if DA_sell_summary:
     DA_price = [summary['pricePerUnit'] for summary in DA_sell_summary]
@@ -101,8 +101,5 @@ if NW_buy_summary:
 #nether wart = NW
 #red sand block = RS
 #mycelium block = MB
-#magma cream = MC
-crimson = 0
-eb * 4 + eg * 4 + nw * 4 + mb + rs += crismon 
-print(crimsom)
+#magma cream = M
 
