@@ -7,12 +7,3 @@
 .farve1 {
     color: black;
  }
- .image-container {
-    float: right; /* This will float the container to the right */
-    margin: 10px; /* Adjust the margin as needed */
-  }
-
-  .image-container1 {
-    float: left; /* This will float the container to the right */
-    margin: 10px; /* Adjust the margin as needed */
-  }
