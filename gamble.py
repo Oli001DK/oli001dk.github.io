@@ -1,3 +1,6 @@
+import random
+randomtal = random(1,3)
+
 MAX_LINE = 3
 def deposit():
     while True:
@@ -22,8 +25,11 @@ def lines():
             else:
                 print("det kan ikke vaere 0") 
         else:
-            print("det kan være et nummer")
+            print("det skal være et nummer")
     return lines
 
 def main():
     bal = deposit()
+    liner = lines()
+
+    
