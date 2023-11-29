@@ -1,2 +1,0 @@
-
-data = Request.get

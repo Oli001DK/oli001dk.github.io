@@ -1,7 +1,5 @@
 import requests
-
-
-class Api: 
+class Api:
     def __init__(self, name_api):
         self.name_api = name_api
 
@@ -13,10 +11,8 @@ class Api:
         api = sum(api_sorted[:4]) / 4
         api_rounded = round(api)
         return api_rounded
-
     def __str__(self):
         return str(self.get_hypixel_api())
-
 api_1 = Api('https://api.slothpixel.me/api/skyblock/bazaar/MOLTEN_POWDER')
 api_1.get_hypixel_api()
-print(api_1)
+print("De koster " + str(api_1) + " pr")
