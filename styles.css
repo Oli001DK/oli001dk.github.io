@@ -7,12 +7,28 @@
 .farve1 {
     color: black;
  }
- .image-container {
-  float: right; /* This will float the container to the right */
-  margin: 10px; /* Adjust the margin as needed */
+
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden; /* Prevent scrolling */
 }
-.image {
-  position: absolute;
-  top: 0;
-  left: 0;
+
+#fixedImage {
+  position: fixed; /* Fixed positioning */
+  top: 0; /* Position at the top of the viewport */
+  left: 100%; /* Center horizontally */
+  transform: translateX(-100%); /* Center horizontally */
+  /* You can adjust the width and height as needed */
+  width: 200px;
+  height: 2000px;
 }
+#fixedImage1 {
+    position: fixed; /* Fixed positioning */
+    top: 0; /* Position at the top of the viewport */
+    left: 0%; /* Center horizontally */
+    transform: translateX(0%); /* Center horizontally */
+    /* You can adjust the width and height as needed */
+    width: 200px;
+    height: 2000px;
+  }
