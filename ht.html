@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden; /* Prevent scrolling */
+    }
+
+    #fixedImage {
+      position: fixed; /* Fixed positioning */
+      top: 0; /* Position at the top of the viewport */
+      left: 50%; /* Center horizontally */
+      transform: translateX(-50%); /* Center horizontally */
+      /* You can adjust the width and height as needed */
+      width: 200px;
+      height: 200px;
+    }
+  </style>
+</head>
+<body>
+  <img id="fixedImage" src="white.png" alt="Your Image">
+  <!-- Replace "your-image.jpg" with the actual path to your image file -->
+</body>
+</html>
